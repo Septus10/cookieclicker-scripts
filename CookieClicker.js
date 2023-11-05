@@ -8,7 +8,7 @@ ClickCookie = function() {
 }
 
 StartClickingCookie = function() {
-	clearInterval(cookieClickInterval);
+    clearInterval(cookieClickInterval);
     cookieClickInterval = setInterval(ClickCookie, cookieClickIntervalTime);
 }
 
@@ -22,8 +22,8 @@ SpawnShimmer = function() {
     if (!goldenType.spawned && goldenType.spawnConditions())
     {
         var newShimmer = new Game.shimmer('golden');
-		newShimmer.spawnLead=1;
-		goldenType.spawned=1;
+	newShimmer.spawnLead=1;
+	goldenType.spawned=1;
     }
 }
 
@@ -33,14 +33,14 @@ ShimmerWatcher = function() {
     for (var i in Game.shimmers)
     {
         var shimmer = Game.shimmers[i];
-		shimmer.pop(shimmerClickEvent);
+	shimmer.pop(shimmerClickEvent);
     }
 }
 
 var shimmerWatcher = 0;
 
 StartShimmerWatcher = function() {
-	clearInterval(shimmerWatcher);
+    clearInterval(shimmerWatcher);
     shimmerWatcher = setInterval(ShimmerWatcher, 100);
 }
 
@@ -49,8 +49,8 @@ StopShimmerWatcher = function() {
 }
 
 GetBestBuilding = function() { 
-	var bestPricePerCps = Number.MAX_VALUE;
-	var bestBuilding = null;
+    var bestPricePerCps = Number.MAX_VALUE;
+    var bestBuilding = null;
 
     for (var i in Game.Objects)
     {
@@ -61,26 +61,26 @@ GetBestBuilding = function() {
             var cps = (building.storedTotalCps / building.amount) * Game.globalCpsMult;
             var pricePerCps = building.bulkPrice / cps;
 			
-			if (pricePerCps < bestPricePerCps)
-			{
-				bestPricePerCps = pricePerCps;
-				bestBuilding = building;
-			}
+            if (pricePerCps < bestPricePerCps)
+            {
+                bestPricePerCps = pricePerCps;
+                bestBuilding = building;
+            }
         }
-		else 
-		{
-			var cps = (building.storedCps) * Game.globalCpsMult;
-			var pricePerCps = building.bulkPrice / cps;
-			
-			if (pricePerCps < bestPricePerCps && Game.cookies > building.bulkPrice)
-			{
-				bestPricePerCps = pricePerCps;
-				bestBuilding = building;
-			}
-		}
+        else 
+        {
+            var cps = (building.storedCps) * Game.globalCpsMult;
+            var pricePerCps = building.bulkPrice / cps;
+	
+            if (pricePerCps < bestPricePerCps && Game.cookies > building.bulkPrice)
+            {
+                bestPricePerCps = pricePerCps;
+                bestBuilding = building;
+            }
+        }
     }
 	
-	return bestBuilding;
+    return bestBuilding;
 }
 
 var buildingBuyer = 0;
@@ -88,41 +88,41 @@ var buildingBuyerInterval = 250;
 var buildingBuyerNum = 1;
 
 StopBuildingBuyer = function() {
-	clearInterval(buildingBuyer);
+    clearInterval(buildingBuyer);
 }
 
 StartBuildingBuyer = function() {
-	clearInterval(buildingBuyer);
-	
-	buildingBuyer = setInterval(function() {
-		for (var i = 0; i < buildingBuyerNum; ++i)
-		{			
-			var bestBuilding = GetBestBuilding();
-			if (bestBuilding.bulkPrice < Game.cookies) {
-				bestBuilding.buy(1);
-			}
-		}
-	}, buildingBuyerInterval);
+    clearInterval(buildingBuyer);
+
+    buildingBuyer = setInterval(function() {
+        for (var i = 0; i < buildingBuyerNum; ++i)
+        {			
+            var bestBuilding = GetBestBuilding();
+            if (bestBuilding.bulkPrice < Game.cookies) {
+                bestBuilding.buy(1);
+            }
+        }
+    }, buildingBuyerInterval);
 }
 
 var upgradeBuyer = 0;
 var upgradeBuyerInterval = 250;
 
 StopUpgradeBuyer = function() {
-	clearInterval(upgradeBuyer);
+    clearInterval(upgradeBuyer);
 }
 
 StartUpgradeBuyer = function() {
-	clearInterval(upgradeBuyer);
+    clearInterval(upgradeBuyer);
 	
-	upgradeBuyer = setInterval(function() {
-		for (var i in Game.UpgradesInStore)
-		{
-			var upgrade = Game.UpgradesInStore[i];
-			if (upgrade.canBuy() && upgrade.pool != "toggle")
-			{
-				upgrade.buy(false);
-			}
-		}
-	}, upgradeBuyerInterval);
+    upgradeBuyer = setInterval(function() {
+        for (var i in Game.UpgradesInStore)
+        {
+            var upgrade = Game.UpgradesInStore[i];
+            if (upgrade.canBuy() && upgrade.pool != "toggle")
+            {
+                upgrade.buy(false);
+            }
+        }
+    }, upgradeBuyerInterval);
 }
